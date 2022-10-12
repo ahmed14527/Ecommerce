@@ -1,17 +1,16 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from orders.views import user_orders
 
-from .forms import RegistrationForm, UserEditForm, UserAddressForm
-from .models import Customer, Address
+from .forms import RegistrationForm, UserEditForm
+from .models import Customer,Address
 from .tokens import account_activation_token
 
 
@@ -89,7 +88,9 @@ def account_activate(request, uidb64, token):
         return render(request, 'account/registration/activation_invalid.html')
 
 
+
 # Addresses
+
 
 @login_required
 def view_address(request):
@@ -124,13 +125,15 @@ def edit_address(request, id):
         address_form = UserAddressForm(instance=address)
     return render(request, "account/dashboard/edit_addresses.html", {"form": address_form})
 
+
 @login_required
 def delete_address(request, id):
     address = Address.objects.filter(pk=id, customer=request.user).delete()
     return redirect("account:addresses")
 
+
 @login_required
 def set_default(request, id):
     Address.objects.filter(customer=request.user, default=True).update(default=False)
     Address.objects.filter(pk=id, customer=request.user).update(default=True)
-    return redirect("account:addresses")   
+    return redirect("account:addresses")
