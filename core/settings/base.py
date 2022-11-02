@@ -17,9 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = "3xk*)i0x#k$btl=(6q)te!19=mp6d)lm1+zl#ts4ewxi3-!vm_"
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
